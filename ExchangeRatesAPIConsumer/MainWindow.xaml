@@ -1,0 +1,44 @@
+﻿<Window x:Class="ExchangeRatesAPIConsumer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ExchangeRatesAPIConsumer"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"></RowDefinition>
+            <RowDefinition Height="20*"></RowDefinition>
+            <RowDefinition Height="20*"></RowDefinition>
+            <RowDefinition Height="40*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition ></ColumnDefinition>
+            <ColumnDefinition ></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center">Head Line</Label>
+        <Label Grid.Row="1" Grid.Column="0" Width="100" VerticalAlignment="Center"> Choose Coins </Label>
+        <ComboBox Grid.Row="1" Grid.Column="1" Width="200" ItemsSource="{Binding Path=SymbolList}" >
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox IsChecked="{Binding Path=IsChecked}" Content="{Binding Path=Value}">
+                    </CheckBox>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Width="100" Command="{Binding SearchCommand}">Search</Button>
+        <!--table grid below-->
+        <DataGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding KeyValueCoins}" Width="200" HorizontalScrollBarVisibility="Disabled" CanUserResizeColumns="False">
+            <DataGrid.Columns>
+                <!--Why one way binding? see here: https://stackoverflow.com/questions/45944909/double-clicking-on-wpf-datagrid-crashes-the-program -->
+                <DataGridTextColumn Header="Coin" Binding="{Binding Path=Key, Mode=OneWay}" Width="75">
+                    
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Rate" Binding="{Binding Path=Value, Mode=OneWay}" Width="125">
+                    
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
