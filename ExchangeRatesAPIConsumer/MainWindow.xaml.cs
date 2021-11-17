@@ -25,5 +25,13 @@ namespace ExchangeRatesAPIConsumer
             InitializeComponent();
             DataContext = new ViewModel();
         }
+
+        private void Window_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Visual visual = e.OriginalSource as Visual;
+
+            if (!visual.IsDescendantOf(expander))
+                expander.IsExpanded = false;
+        }
     }
 }
