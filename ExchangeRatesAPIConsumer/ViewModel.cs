@@ -11,7 +11,7 @@ using System.Text;
 
 namespace ExchangeRatesAPIConsumer
 {
-    class ViewModel:INotifyPropertyChanged
+    class ViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null)
@@ -19,7 +19,7 @@ namespace ExchangeRatesAPIConsumer
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        
+
         private List<SymbolViewModel> symbolList = new List<SymbolViewModel>();
         public List<SymbolViewModel> SymbolList
         {
@@ -43,7 +43,7 @@ namespace ExchangeRatesAPIConsumer
 
         private Dictionary<string, string> keyValueCoins = new Dictionary<string, string>();
 
-        
+
 
         public Dictionary<string, string> KeyValueCoins
         {
@@ -55,16 +55,27 @@ namespace ExchangeRatesAPIConsumer
             }
         }
 
-        public RelayCommandNoParameter SearchCommand { get; private set; }
+        public RelayCommandWithParameter SearchCommand { get; private set; }
 
         public ViewModel()
         {
-            SearchCommand = new RelayCommandNoParameter(getLatestChoosedCoins);
+            SearchCommand = new RelayCommandWithParameter(getLatestChoosedCoins);
         }
 
-        private void getLatestChoosedCoins()
+        private List<string> coins = new List<string>();
+
+        public List<string> Coins { get; set; }
+
+
+        private void getLatestChoosedCoins(object obj)
         {
-            List<SymbolViewModel> checkedSymbols = symbolList.FindAll(coin => coin.IsChecked);
+            //problem with converting selectedItems object to the desired collection : List<SymbolViewModel>.
+            //solution: https://stackoverflow.com/questions/1877949/how-to-cast-a-system-windows-controls-selecteditemcollection
+            System.Collections.IList items = (System.Collections.IList)obj;
+            var checkedSymbols = items.Cast<SymbolViewModel>();
+            if (checkedSymbols is null)
+                return;
+
             string symbols = "";
             foreach (SymbolViewModel symbol in checkedSymbols)
             {
@@ -83,6 +94,7 @@ namespace ExchangeRatesAPIConsumer
             JObject inner = outer["rates"].Value<JObject>();
 
             KeyValueCoins = JsonConvert.DeserializeObject<Dictionary<string, string>>(inner.ToString());
+
 
         }
     }
