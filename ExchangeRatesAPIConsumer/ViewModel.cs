@@ -41,16 +41,14 @@ namespace ExchangeRatesAPIConsumer
             set {; }
         }
 
-        private Dictionary<string, string> keyValueCoins = new Dictionary<string, string>();
+        private Dictionary<string, string> coinRatePairs = new Dictionary<string, string>();
 
-
-
-        public Dictionary<string, string> KeyValueCoins
+        public Dictionary<string, string> CoinRatePairs
         {
-            get { return keyValueCoins; }
+            get { return coinRatePairs; }
             set
             {
-                keyValueCoins = value;
+                coinRatePairs = value;
                 OnPropertyChanged();
             }
         }
@@ -93,7 +91,7 @@ namespace ExchangeRatesAPIConsumer
             JToken outer = JToken.Parse(response.Content);
             JObject inner = outer["rates"].Value<JObject>();
 
-            KeyValueCoins = JsonConvert.DeserializeObject<Dictionary<string, string>>(inner.ToString());
+            CoinRatePairs = JsonConvert.DeserializeObject<Dictionary<string, string>>(inner.ToString());
 
 
         }

@@ -199,7 +199,7 @@
         </Grid>
         <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Width="100" Command="{Binding SearchCommand}" CommandParameter="{Binding ElementName=lst,Path=SelectedItems}">Search</Button>
         <!--table grid below-->
-        <DataGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding KeyValueCoins}" Width="200" HorizontalScrollBarVisibility="Disabled" CanUserResizeColumns="False">
+        <DataGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding CoinRatePairs}" Width="200" HorizontalScrollBarVisibility="Disabled" CanUserResizeColumns="False">
             <DataGrid.Columns>
                 <!--Why one way binding? see here: https://stackoverflow.com/questions/45944909/double-clicking-on-wpf-datagrid-crashes-the-program -->
                 <DataGridTextColumn Header="Coin" Binding="{Binding Path=Key, Mode=OneWay}" Width="75">
