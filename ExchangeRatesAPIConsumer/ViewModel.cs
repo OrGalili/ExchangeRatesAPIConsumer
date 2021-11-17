@@ -20,8 +20,8 @@ namespace ExchangeRatesAPIConsumer
         }
 
 
-        private List<SymbolViewModel> symbolList = new List<SymbolViewModel>();
-        public List<SymbolViewModel> SymbolList
+        private Dictionary<string, string> symbolList = new Dictionary<string, string>();
+        public Dictionary<string, string> SymbolList
         {
             get
             {
@@ -31,10 +31,7 @@ namespace ExchangeRatesAPIConsumer
                 JToken outer = JToken.Parse(response.Content);
                 JObject inner = outer["symbols"].Value<JObject>();
 
-                var coinDic = JsonConvert.DeserializeObject<Dictionary<string, string>>(inner.ToString());
-
-                foreach (KeyValuePair<string, string> coin in coinDic)
-                    symbolList.Add(new SymbolViewModel(coin.Key, coin.Value));
+                symbolList = JsonConvert.DeserializeObject<Dictionary<string, string>>(inner.ToString());
 
                 return symbolList;
             }
@@ -70,12 +67,12 @@ namespace ExchangeRatesAPIConsumer
             //problem with converting selectedItems object to the desired collection : List<SymbolViewModel>.
             //solution: https://stackoverflow.com/questions/1877949/how-to-cast-a-system-windows-controls-selecteditemcollection
             System.Collections.IList items = (System.Collections.IList)obj;
-            var checkedSymbols = items.Cast<SymbolViewModel>();
+            var checkedSymbols = items.Cast<KeyValuePair<string,string>>();
             if (checkedSymbols is null)
                 return;
 
             string symbols = "";
-            foreach (SymbolViewModel symbol in checkedSymbols)
+            foreach (KeyValuePair<string,string> symbol in checkedSymbols)
             {
                 symbols += symbol.Key + ",";
             }
