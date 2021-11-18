@@ -170,8 +170,8 @@
             <ColumnDefinition ></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center">Head Line</Label>
-        <Label Grid.Row="1" Grid.Column="0" Width="100" VerticalAlignment="Center"> Choose Coins </Label>
-        <Grid Grid.Row="1" Grid.Column="1" x:Name="gd" HorizontalAlignment="Center" VerticalAlignment="Center" >
+        <Label Grid.Row="1" Grid.Column="0" Width="100"> Choose Coins </Label>
+        <Canvas Panel.ZIndex="1" Grid.Row="1" Grid.Column="1" x:Name="gd" >
             <Expander x:Name="expander" Width="350">
                 <Expander.Header>
                     <ListBox x:Name="chosenCoins" ItemsSource="{Binding ElementName=lst,Path=SelectedItems}" Background="Transparent" IsHitTestVisible="False" BorderBrush="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Disabled"  BorderThickness="0" >
@@ -188,7 +188,7 @@
                     </ListBox>
                 </Expander.Header>
                 <Expander.Content>
-                    <ListBox x:Name="lst" ItemsSource="{Binding SymbolList}" Background="Transparent" ItemContainerStyle="{StaticResource itemstyle}" HorizontalContentAlignment="Stretch" SelectionMode="Multiple">
+                    <ListBox x:Name="lst" ItemsSource="{Binding SymbolList}" Background="White" Opacity="0.8" ItemContainerStyle="{StaticResource itemstyle}" HorizontalContentAlignment="Stretch" SelectionMode="Multiple">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <CheckBox x:Name="checkBox"  IsChecked="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" Content="{Binding Value}"></CheckBox>
@@ -197,7 +197,7 @@
                     </ListBox>
                 </Expander.Content>
             </Expander>
-        </Grid>
+        </Canvas>
         <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Width="100" Command="{Binding SearchCommand}" CommandParameter="{Binding ElementName=lst,Path=SelectedItems}">Search</Button>
         <!--table grid below-->
         <DataGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding CoinRatePairs}" Width="200" HorizontalScrollBarVisibility="Disabled" CanUserResizeColumns="False">
